@@ -28,14 +28,26 @@ export default class SendMessageService {
 	async Welcome ( ) {
 		const params = SendEmailHelper( this._email, "Welcome to ECOMMERCE!", `Hello ${this._name}, nice to meet you, welcome to ECOMMERCE a 100% free platform to see ANYTHING YOU WANT...`);
 
-		const SES = new AWS.SES({ apiVersion: "2010-12-01" }).sendEmail( params ).promise();
+		try {
+			
+			const test = await new AWS.SES({ apiVersion: "2010-12-01" }).sendEmail( params ).promise();
+			console.log(test);
 
-		SES.then(
-			function(data) {
-				console.log( data );
-			}).catch(
-			function(err) {
-				console.error( err );
-			});
+		} catch (e) {
+			return false;
+		}
+	}
+
+	async Login ( ) {
+		const params = SendEmailHelper( this._email, "New login detected!", `Hey ${this._name}, we detected a new login, based on ip: ${this._ip}.`);
+
+		try {
+			
+			const test = await new AWS.SES({ apiVersion: "2010-12-01" }).sendEmail( params ).promise();
+			console.log(test);
+
+		} catch (e) {
+			return false;
+		}
 	}
 }

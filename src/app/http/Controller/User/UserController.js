@@ -22,7 +22,9 @@ class UserController {
 		const StorageInformation = await new repository( username, email, cpf, password ).Storage( );
 
 		if ( StorageInformation ) {
-			await new SendEmailService( email, username ).Welcome( );
+			
+			if ( await new SendEmailService( email, username ).Welcome( ) === false )
+				console.log( "email not sent!" );
 
 			return ResponseHelper.created( res, { 
 				success: "account created",
@@ -35,7 +37,6 @@ class UserController {
 
 		return await ResponseHelper.unprocessableEntity( res, { error: "unable to process this request, please try again" });
 	}
-
 }
 
 export default new UserController;

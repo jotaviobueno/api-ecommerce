@@ -20,6 +20,7 @@ export default class repository {
 
 	async Storage (  ) {
 		return await UserModel.create({
+
 			username: this._username,
 			email: this._email,
 			password: await bcrypt.hash( this._password, 10 ),
@@ -28,6 +29,7 @@ export default class repository {
 			created_at: new Date(),
 			updated_at: new Date(),
 			deleted_at: null
+			
 		});
 	}
 }
