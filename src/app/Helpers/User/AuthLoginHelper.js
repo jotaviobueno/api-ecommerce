@@ -11,7 +11,7 @@ import {LoginsNumber} from "../../../config/Config.js";
 class AuthLoginHelper {
 
 	async ExistSession ( session_id ) {
-		const findSession = await LoginModel.findOne({ session_token: session_id, disconnected_in: null });
+		const findSession = await LoginModel.findOne({ session_id: session_id, disconnected_in: null });
 
 		if (! findSession )
 			return false;
@@ -28,10 +28,14 @@ class AuthLoginHelper {
 	}
 
 	async VerifyUserSession ( email ) {
-		const findSession = await LoginModel.find({ email: email, disconnected_in: null });
+		const FindSession = await LoginModel.find( { email: email, disconnected_in: null } );
 
-		if ( findSession.length >= LoginsNumber )
-			await LoginModel.updateMany( { disconnected_in: null } );
+		if ( FindSession.length >= LoginsNumber ) {
+			FindSession.forEach( async (Session) => {
+				await LoginModel.findOneAndUpdate( { email: Session.email, disconnected_in: null }, { disconnected_in: new Date() } );
+				
+			});
+		}
 	}
 
 	async VerifyUserIp ( email, ip ) {

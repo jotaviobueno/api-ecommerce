@@ -11,3 +11,4 @@ import AuthLoginController from "../http/Controller/User/AuthLoginController.js"
 // Routes
 UserRoutes.post( "/register", UserController.Storage );
 UserRoutes.post( "/login", AuthLoginController.CreateSession );
+UserRoutes.get( "/my-account", UserController.SeeAccount );

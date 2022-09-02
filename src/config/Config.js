@@ -1,2 +1,2 @@
 // number of allowed logins
-export const LoginsNumber = 5;
+export const LoginsNumber = 2;
