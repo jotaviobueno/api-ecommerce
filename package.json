@@ -20,6 +20,7 @@
   },
   "homepage": "https://github.com/jotaviobueno/api-ecommerce#readme",
   "dependencies": {
+    "aws-sdk": "^2.1208.0",
     "bcrypt": "^5.0.1",
     "dotenv": "^16.0.2",
     "eslint": "^8.23.0",
