@@ -44,8 +44,6 @@ class UserController {
 
 		const SessionInformation = await AuthLoginHelper.ExistSession( session_id );
 
-		console.log(SessionInformation);
-
 		if (! SessionInformation )
 			return ResponseHelper.unprocessableEntity( res, { error: "session_id invalid" } );
 
