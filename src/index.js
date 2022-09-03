@@ -10,6 +10,7 @@ import {Connect} from "./config/MongooseConnect.js";
 
 // Routes
 import {UserRoutes} from "./app/Routes/UserRoutes.js";
+import {ProductRoutes} from "./app/Routes/ProductRoutes.js";
 
 // Config
 const app = express();
@@ -20,6 +21,7 @@ app.use(express.urlencoded({extended: true}));
 app.use(express.json());
 
 app.use("/", UserRoutes);
+app.use("/", ProductRoutes);
 
 if ( await Connect() ) {
 	app.listen( port, () => {
