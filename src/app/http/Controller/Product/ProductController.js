@@ -14,7 +14,7 @@ import { lowestPrice, minimumInStock, MaximumStock } from "../../../../config/Co
 class ProductController {
 	async StorageProduct ( req, res ) {
 		const { session_id } = req.headers;
-		const { tittle, price, stock } = req.body;
+		const { title, price, stock } = req.body;
 
 		const SessionInformation = await AuthLoginHelper.ExistSession( session_id );
 
@@ -35,13 +35,13 @@ class ProductController {
 		if (  stock >= MaximumStock )
 			return ResponseHelper.unprocessableEntity( res, { error: "the stock cannot be larger than 5000 units" } );
 
-		const StorageInformation = await new repository( UserInformation.email, UserInformation.username, tittle, price, stock ).StorageProduct();
+		const StorageInformation = await new repository( UserInformation.email, UserInformation.username, title, price, stock ).StorageProduct();
 
 		if ( StorageInformation )
 			return ResponseHelper.created( res, { 
 				success: "Product created",
 				id: StorageInformation._id,
-				tittle: StorageInformation.tittle,
+				title: StorageInformation.title,
 				email: StorageInformation.email,
 				price: StorageInformation.price,
 				stock: StorageInformation.stock
