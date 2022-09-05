@@ -4,7 +4,7 @@ import mongoose from "mongoose";
 // Model
 const ProductModel = mongoose.model( "product", {
 
-	tittle: { type: String, required: true },
+	title: { type: String, required: true },
 	name: { type: String, required: true },
 	email: { type: String, required: true },
 	stock: { type: Number, required: true },

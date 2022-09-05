@@ -1,6 +1,10 @@
 // Dependencies
 import MercadoPago from "mercadopago";
 import axios from "axios";
+import { nanoid } from "nanoid";
+
+// Models
+import TransferHistoryModel from "../../../Models/Product/TransferHistoryModel.js";
 
 class Mercadopago {
 
@@ -11,7 +15,8 @@ class Mercadopago {
 	
 		const preference = {
 			items: [
-				{
+				{	
+					id: nanoid(),
 					title: title,
 					quantity: 1,
 					currency_id: "BRL",
@@ -21,35 +26,43 @@ class Mercadopago {
 			notification_url: process.env.NGROK_LINK
 		};
 		
-		return MercadoPago.preferences.create(preference).then( async (success) => {
-			return success;
-			
-		}).catch( (e) => {
+		try {
+			const Information = await MercadoPago.preferences.create(preference);
+
+			return {
+				id: Information.body.items, 
+				link: Information.body.sandbox_init_point
+			};
+
+		} catch (e) {
 			console.log(e);
 			return false;
-		});
-	
+		}
 	}
 	
-	async notification ( req, res ) {
+	async notification ( req ) {
 		const query = req.query;
-		// const body = req.body;
-		// const headers = req.headers;
-	
-		console.log(query);
 
-		console.log(query["data.id"]);
-
-		if ( query["data.id"] != null && query["data.id"] != undefined ) {
+		if ( query["data.id"] != null ) {
 			try {
 				const PaymentInformation = await axios.get(`https://api.mercadopago.com/v1/payments/${query["data.id"]}`, {
 					headers: { "Authorization": `Bearer ${process.env.MERCADOPAGO_ACESS_TOKEN}` }
 				});	
-	
-				console.log(PaymentInformation.data.status);
-	
+
+				if ( PaymentInformation.data.status ) {
+
+					PaymentInformation.data.additional_info.items.forEach( async ( paymentInformation ) => {
+
+						const getPaymentInformation = await TransferHistoryModel.findOne({ payment_id: paymentInformation.id });
+
+						if ( getPaymentInformation.status === null )
+							if ( paymentInformation.id != null ) 
+								await TransferHistoryModel.findOneAndUpdate({ payment_id: paymentInformation.id }, { status: PaymentInformation.data.status, updated_at: new Date() }); 
+					});
+				}
+
 			} catch(e) {
-				console.log(e);
+				return false, console.log(e);
 			}
 		}
 	}

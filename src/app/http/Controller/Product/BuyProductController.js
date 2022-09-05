@@ -39,13 +39,14 @@ class BuyProductController {
 
 		const getTheFullPrice = await ProductHelper.MultiplyThePrice( ProductInformation.price, quantity );
 
-		const a = await Mercadopago.PaymentLinkGeneration( ProductInformation.tittle, getTheFullPrice );
+		const paymentInformation = await Mercadopago.PaymentLinkGeneration( ProductInformation.title, getTheFullPrice );
 
-		if ( a )
-			return ResponseHelper.unprocessableEntity( res, { success: a } );
-
+		if ( paymentInformation ) {
+			await new repository( UserInformation.email, paymentInformation.id).CreateBuyOrder();
+		
+			return ResponseHelper.unprocessableEntity( res, { success: paymentInformation.id, checkout: paymentInformation.link } );
+		}
 	}
-
 }
 
 export default new BuyProductController;

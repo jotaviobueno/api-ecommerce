@@ -9,18 +9,17 @@ export default class repository {
 	_email;
 	_stock;
 
-	constructor( email, name, tittle, price, stock) {
+	constructor( email, name, title, price, stock) {
 		this._email = email;
 		this._name = name;
-		this.tittle = tittle;
+		this.title = title;
 		this.price = price;
 		this._stock = stock;
 	}
     
 	async StorageProduct ( ) {
-
 		return await ProductModel.create({
-			tittle: this.tittle,
+			title: this.title,
 			name: this._name,
 			email: this._email,
 			stock: this._stock,
