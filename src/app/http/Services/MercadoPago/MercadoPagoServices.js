@@ -1,14 +1,15 @@
 // Dependencies
 import MercadoPago from "mercadopago";
+import axios from "axios";
 
 class Mercadopago {
+
 	async PaymentLinkGeneration ( title, total ) {
-	
 		MercadoPago.configure({
 			access_token: process.env.MERCADOPAGO_ACESS_TOKEN
 		});
 	
-		var preference = {
+		const preference = {
 			items: [
 				{
 					title: title,
@@ -31,11 +32,26 @@ class Mercadopago {
 	}
 	
 	async notification ( req, res ) {
-		const datos = req.query;
-		const body = req.body;
-		const headers = req.headers;
+		const query = req.query;
+		// const body = req.body;
+		// const headers = req.headers;
 	
-		console.log(datos, body, headers);
+		console.log(query);
+
+		console.log(query["data.id"]);
+
+		if ( query["data.id"] != null && query["data.id"] != undefined ) {
+			try {
+				const PaymentInformation = await axios.get(`https://api.mercadopago.com/v1/payments/${query["data.id"]}`, {
+					headers: { "Authorization": `Bearer ${process.env.MERCADOPAGO_ACESS_TOKEN}` }
+				});	
+	
+				console.log(PaymentInformation.data.status);
+	
+			} catch(e) {
+				console.log(e);
+			}
+		}
 	}
 }
 
