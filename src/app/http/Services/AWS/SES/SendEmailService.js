@@ -30,8 +30,9 @@ export default class SendMessageService {
 
 		try {
 			
-			const test = await new AWS.SES({ apiVersion: "2010-12-01" }).sendEmail( params ).promise();
-			console.log(test);
+			const SendEmail = await new AWS.SES({ apiVersion: "2010-12-01" }).sendEmail( params ).promise();
+
+			return true;
 
 		} catch (e) {
 			return false;
@@ -43,8 +44,9 @@ export default class SendMessageService {
 
 		try {
 			
-			const test = await new AWS.SES({ apiVersion: "2010-12-01" }).sendEmail( params ).promise();
-			console.log(test);
+			const SendEmail = await new AWS.SES({ apiVersion: "2010-12-01" }).sendEmail( params ).promise();
+
+			return true;
 
 		} catch (e) {
 			return false;

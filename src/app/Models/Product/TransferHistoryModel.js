@@ -5,6 +5,7 @@ import mongoose from "mongoose";
 const TransferHistoryModel = mongoose.model( "transferHistory", {
 
 	email: { type: String, required: true },
+	name: { type: String, require: true },
 	description: { type: String, required: true },
 	status: { type: String },
 	payment_id: { type: String, required: true },

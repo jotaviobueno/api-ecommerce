@@ -3,9 +3,6 @@ import MercadoPago from "mercadopago";
 import axios from "axios";
 import { nanoid } from "nanoid";
 
-// Models
-import TransferHistoryModel from "../../../Models/Product/TransferHistoryModel.js";
-
 class Mercadopago {
 
 	async PaymentLinkGeneration ( title, total ) {
@@ -40,30 +37,50 @@ class Mercadopago {
 		}
 	}
 	
-	async notification ( req ) {
-		const query = req.query;
+	// async notification ( req ) {
+	// 	const query = req.query;
 
-		if ( query["data.id"] != null ) {
-			try {
-				const PaymentInformation = await axios.get(`https://api.mercadopago.com/v1/payments/${query["data.id"]}`, {
-					headers: { "Authorization": `Bearer ${process.env.MERCADOPAGO_ACESS_TOKEN}` }
-				});	
+	// 	if ( query["data.id"] != null ) {
+	// 		try {
+	// 			const PaymentInformation = await axios.get(`https://api.mercadopago.com/v1/payments/${query["data.id"]}`, {
+	// 				headers: { "Authorization": `Bearer ${process.env.MERCADOPAGO_ACESS_TOKEN}` }
+	// 			});	
 
-				if ( PaymentInformation.data.status ) {
+	// 			// console.log( PaymentInformation.data.status );
 
-					PaymentInformation.data.additional_info.items.forEach( async ( paymentInformation ) => {
+	// 			if ( PaymentInformation.data.status ) {
 
-						const getPaymentInformation = await TransferHistoryModel.findOne({ payment_id: paymentInformation.id });
+	// 				PaymentInformation.data.additional_info.items.forEach( async ( paymentInformation ) => {
 
-						if ( getPaymentInformation.status === null )
-							if ( paymentInformation.id != null ) 
-								await TransferHistoryModel.findOneAndUpdate({ payment_id: paymentInformation.id }, { status: PaymentInformation.data.status, updated_at: new Date() }); 
-					});
-				}
+	// 					const getPaymentInformation = await TransferHistoryModel.findOne({ payment_id: paymentInformation.id });
 
-			} catch(e) {
-				return false, console.log(e);
-			}
+	// 					if ( getPaymentInformation.status === null ) {
+	// 						if ( paymentInformation.id != null ) { 
+	// 							await TransferHistoryModel.findOneAndUpdate({ payment_id: paymentInformation.id }, { status: PaymentInformation.data.status, updated_at: new Date() });
+
+	// 							if (! await new BuyEmailServices( getPaymentInformation.email, getPaymentInformation.name, paymentInformation.title, paymentInformation, PaymentInformation.data.status ).SendEmail() )
+	// 								console.log( "email not sent!" );
+	// 						}
+	// 					}
+	// 				});
+	// 			}
+
+	// 		} catch(e) {
+	// 			return false, console.log(e);
+	// 		}
+	// 	}
+	// }
+
+	async notification ( id ) {
+
+		try {
+
+			return await axios.get(`https://api.mercadopago.com/v1/payments/${id}`, {
+				headers: { "Authorization": `Bearer ${process.env.MERCADOPAGO_ACESS_TOKEN}` }
+			});	
+
+		} catch(e) {
+			return false, console.log(e);
 		}
 	}
 }

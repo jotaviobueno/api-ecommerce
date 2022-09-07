@@ -8,7 +8,7 @@ import AuthLoginHelper from "../../../Helpers/User/AuthLoginHelper.js";
 import ProductHelper from "../../../Helpers/Product/ProductHelper.js";
 
 // Services
-import Mercadopago from "../../Services/MercadoPago/MercadoPagoServices.js";
+import MercadoPagoServices from "../../Services/MercadoPago/MercadoPagoServices.js";
 
 class BuyProductController {
 
@@ -39,10 +39,10 @@ class BuyProductController {
 
 		const getTheFullPrice = await ProductHelper.MultiplyThePrice( ProductInformation.price, quantity );
 
-		const paymentInformation = await Mercadopago.PaymentLinkGeneration( ProductInformation.title, getTheFullPrice );
+		const paymentInformation = await MercadoPagoServices.PaymentLinkGeneration( ProductInformation.title, getTheFullPrice );
 
 		if ( paymentInformation ) {
-			await new repository( UserInformation.email, paymentInformation.id).CreateBuyOrder();
+			await new repository( UserInformation.email, paymentInformation.id, UserInformation.username ).CreateBuyOrder();
 		
 			return ResponseHelper.unprocessableEntity( res, { success: paymentInformation.id, checkout: paymentInformation.link } );
 		}

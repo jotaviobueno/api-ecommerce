@@ -6,17 +6,20 @@ import TransferHistoryModel from "../../../Models/Product/TransferHistoryModel.j
 export default class repository {
 	// Private
 	_email;
+	_name;
 	_paymentInformation;
 
-	constructor( email, paymentInformation ) {
+	constructor( email, paymentInformation, name ) {
 		this._email = email;
 		this._paymentInformation = paymentInformation;
+		this._name = name;
 	}
     
 	async CreateBuyOrder ( ) {
 		await this._paymentInformation.forEach( async ( information ) => {
 			return await TransferHistoryModel.create({
 				email: this._email,
+				name: this._name,
 				description: information.title,
 				status: null,
 				payment_id: information.id,
