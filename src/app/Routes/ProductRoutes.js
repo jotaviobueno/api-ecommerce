@@ -12,4 +12,6 @@ import NotificationController from "../http/Controller/Product/NotificationContr
 ProductRoutes.post( "/create-product", ProductController.StorageProduct );
 ProductRoutes.post( "/product/buy", BuyProductController.BuyProduct );
 
+ProductRoutes.delete( "/product-delete", ProductController.delete );
+
 ProductRoutes.post( "/notification", NotificationController.Notification );

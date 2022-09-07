@@ -14,8 +14,7 @@ class repository {
 				const findUser = await TransferHistoryModel.findOne({ payment_id: item.id });
 
 				if ( findUser != null )
-					if ( findUser.status != "approved" ) {
-
+					if ( findUser.status === null ) {
 						await TransferHistoryModel.findOneAndUpdate({ id: findUser._id }, { status: status, updated_at: new Date() });
 
 						if ( await new BuyEmailServices( findUser.email, findUser.name, findUser.title, item, status ).SendEmail() )

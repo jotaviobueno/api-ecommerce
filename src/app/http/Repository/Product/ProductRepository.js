@@ -8,13 +8,15 @@ export default class repository {
 	_name;
 	_email;
 	_stock;
+	_id;
 
-	constructor( email, name, title, price, stock) {
+	constructor( email, name, title, price, stock, product_id ) {
 		this._email = email;
 		this._name = name;
 		this.title = title;
 		this.price = price;
 		this._stock = stock;
+		this._id = product_id;
 	}
     
 	async StorageProduct ( ) {
@@ -30,4 +32,7 @@ export default class repository {
 		});
 	}
 
+	async DeleteProduct ( ) {
+		return await ProductModel.findOneAndUpdate({ _id: this._id }, { deleted_at: new Date(), updated_at: new Date() });
+	}
 }
