@@ -35,4 +35,8 @@ export default class repository {
 	async DeleteProduct ( ) {
 		return await ProductModel.findOneAndUpdate({ _id: this._id }, { deleted_at: new Date(), updated_at: new Date() });
 	}
+
+	async FindAll ( ) {
+		return await ProductModel.find({ deleted_at: null }).select({ deleted_at: 0, __v: 0 });
+	}
 }

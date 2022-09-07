@@ -84,6 +84,19 @@ class ProductController {
 
 		return await ResponseHelper.unprocessableEntity( res, { error: "unable to process this request, please try again" });
 	}
+
+	async findAllProduct ( req, res ) {
+
+		const findInfo = await new repository().FindAll();
+
+		if ( findInfo )
+			return await ResponseHelper.success( res, { 
+				success: "successfully deleted",
+				find: findInfo,
+			});
+
+		return await ResponseHelper.unprocessableEntity( res, { error: "unable to process this request, please try again" });
+	}
 }
 
 export default new ProductController;

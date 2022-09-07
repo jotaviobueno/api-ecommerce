@@ -13,5 +13,6 @@ ProductRoutes.post( "/create-product", ProductController.StorageProduct );
 ProductRoutes.post( "/product/buy", BuyProductController.BuyProduct );
 
 ProductRoutes.delete( "/product-delete", ProductController.delete );
+ProductRoutes.get( "/product", ProductController.findAllProduct );
 
 ProductRoutes.post( "/notification", NotificationController.Notification );
