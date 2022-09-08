@@ -14,5 +14,6 @@ ProductRoutes.post( "/product/buy", BuyProductController.BuyProduct );
 
 ProductRoutes.delete( "/product-delete", ProductController.delete );
 ProductRoutes.get( "/product", ProductController.findAllProduct );
+ProductRoutes.get("/payment/history", NotificationController.PaymentHistory );
 
 ProductRoutes.post( "/notification", NotificationController.Notification );

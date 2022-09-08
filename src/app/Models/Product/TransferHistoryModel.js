@@ -8,6 +8,7 @@ const TransferHistoryModel = mongoose.model( "transferHistory", {
 	name: { type: String, require: true },
 	description: { type: String, required: true },
 	status: { type: String },
+	quantity: { type: Number },
 	payment_id: { type: String, required: true },
 	total_price: { type: Number, required: true },
 	created_at: { type: Date, required: true },

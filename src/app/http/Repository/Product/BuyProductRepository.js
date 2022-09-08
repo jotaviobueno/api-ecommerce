@@ -22,6 +22,7 @@ export default class repository {
 				name: this._name,
 				description: information.title,
 				status: null,
+				id: null,
 				payment_id: information.id,
 				total_price: information.unit_price,
 				created_at: new Date(),

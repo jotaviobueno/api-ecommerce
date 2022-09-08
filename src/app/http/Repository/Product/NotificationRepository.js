@@ -7,7 +7,7 @@ import BuyEmailServices from "../../Services/AWS/SES/BuyEmailServices.js";
 
 class repository {
 
-	async verifyPayment ( ArrayItems, status ) {
+	async verifyPayment ( ArrayItems, status, id ) {
 
 		await ArrayItems.forEach( async (item) => {
 
@@ -19,7 +19,7 @@ class repository {
 						const findProduct = await ProductModel.findOne({ _id: item.category_id });
 						const subtraction = parseFloat( findProduct.stock ) - parseFloat( 1 );
 	
-						await TransferHistoryModel.findOneAndUpdate({ payment_id: findUser.payment_id }, { status: status, updated_at: new Date() });
+						await TransferHistoryModel.findOneAndUpdate({ payment_id: findUser.payment_id }, { status: status, id: id, updated_at: new Date() });
 
 						await ProductModel.findOneAndUpdate({ _id: findProduct._id }, { stock: subtraction,  updated_at: new Date() });
 									
@@ -31,6 +31,10 @@ class repository {
 			}
 		});
 	} 
+
+	async getHistory ( email ) {
+		return await TransferHistoryModel.find({ email: email }).select({ __v: 0 });
+	}
 }
 
 export default new repository;
