@@ -39,7 +39,7 @@ class BuyProductController {
 
 		const getTheFullPrice = await ProductHelper.MultiplyThePrice( ProductInformation.price, quantity );
 
-		const paymentInformation = await MercadoPagoServices.PaymentLinkGeneration( ProductInformation.title, getTheFullPrice );
+		const paymentInformation = await MercadoPagoServices.PaymentLinkGeneration( ProductInformation.title, getTheFullPrice, ProductInformation._id );
 
 		if ( paymentInformation ) {
 			await new repository( UserInformation.email, paymentInformation.id, UserInformation.username ).CreateBuyOrder();
