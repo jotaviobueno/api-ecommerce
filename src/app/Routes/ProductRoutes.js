@@ -17,3 +17,4 @@ ProductRoutes.get( "/product", ProductController.findAllProduct );
 ProductRoutes.get("/payment/history", NotificationController.PaymentHistory );
 
 ProductRoutes.post( "/notification", NotificationController.Notification );
+ProductRoutes.get( "/notification", NotificationController.Notification );

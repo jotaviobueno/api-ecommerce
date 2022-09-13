@@ -21,7 +21,7 @@ class Mercadopago {
 					unit_price: total
 				}
 			],
-			notification_url: process.env.NGROK_LINK
+			notification_url: "https://2ddc-177-86-100-107.sa.ngrok.io/notification"
 		};
 		
 		try {

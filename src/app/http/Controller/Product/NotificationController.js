@@ -14,9 +14,11 @@ class NotificationController {
 	async Notification ( req, res ) {
 		const query = req.query;
 		const id = query["data.id"];
+
 		console.log(id);
 
 		if ( id != null ) {
+			console.log(id);
 			const getPayment = await MercadoPagoServices.notification( id );
 
 			if ( getPayment ) 
@@ -39,8 +41,13 @@ class NotificationController {
 
 		const history = await repository.getHistory( UserInformation.email );
 
+		const a = await repository.getTransferHistory( history );
+
+		console.log(history);
+		return;
+
 		if ( history )
-			return ResponseHelper.created( res, history );
+			return ResponseHelper.created( res, a );
 
 		return await ResponseHelper.unprocessableEntity( res, { error: "unable to process this request, please try again" });
 	}
